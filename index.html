@@ -131,12 +131,108 @@
 
 <body>
   <canvas id="confettiCanvas"></canvas>
-  <img
-  class="art"
-  src="https://jumpshare.com/s/wsvYKRaMXKrwoJ7jYEYr"
-  alt="Han Galentine SVG"
-  />
 
+  <main class="card">
+    <!-- Heart and Skooz -->
+    <svg class="art" viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="heart" x1="0" x2="1">
+          <stop offset="0" stop-color="#ff4d7d"/>
+          <stop offset="1" stop-color="#ff1f68"/>
+        </linearGradient>
+      </defs>
+
+      <!-- HEART -->
+      <path
+        d="M160 36
+          C160 18 194 18 194 36
+          C194 64 160 82 160 102
+          C160 82 126 64 126 36
+          C126 18 160 18 160 36Z"
+        fill="url(#heart)"
+      />
+
+      <!-- HEAD OUTLINE -->
+      <path
+        d="M58 170
+          C48 118 96 58 160 62
+          C224 58 272 118 262 170
+          C256 238 206 262 160 262
+          C114 262 64 238 58 170Z"
+        fill="#FFD1A8"
+        stroke="#F49A63"
+        stroke-width="8"
+        stroke-linejoin="round"
+      />
+
+      <!-- EARS (slightly uneven) -->
+      <path d="M96 92 C82 60 120 50 140 78 Z" fill="#F49A63"/>
+      <path d="M224 92 C238 60 200 52 182 78 Z" fill="#F49A63"/>
+
+      <path d="M102 92 C94 70 120 66 132 80 Z" fill="#F7B38C"/>
+      <path d="M218 92 C226 70 200 66 188 80 Z" fill="#F7B38C"/>
+
+      <!-- FOREHEAD CURL -->
+      <path
+        d="M148 108
+          C136 96 150 80 164 90
+          C178 100 162 120 148 108Z"
+        fill="none"
+        stroke="#F49A63"
+        stroke-width="6"
+        stroke-linecap="round"
+      />
+
+      <!-- EYEBROWS -->
+      <path d="M108 140 Q136 128 160 140"
+            stroke="#5A2D23"
+            stroke-width="9"
+            stroke-linecap="round"
+            fill="none"/>
+      <path d="M212 140 Q184 128 160 140"
+            stroke="#5A2D23"
+            stroke-width="9"
+            stroke-linecap="round"
+            fill="none"/>
+
+      <!-- EYES -->
+      <circle cx="132" cy="170" r="20" fill="#4B2E2A"/>
+      <circle cx="188" cy="170" r="20" fill="#4B2E2A"/>
+
+      <circle cx="126" cy="162" r="6" fill="#fff"/>
+      <circle cx="182" cy="162" r="6" fill="#fff"/>
+
+      <!-- NOSE -->
+      <ellipse cx="160" cy="188" rx="13" ry="11" fill="#3A1F1B"/>
+
+      <!-- TOOTH -->
+      <rect x="155" y="204" width="10" height="10" rx="2" fill="#fff"/>
+      <rect x="150" y="202" width="20" height="4" rx="2" fill="#3A1F1B"/>
+
+      <!-- CHEEK DOT -->
+      <circle cx="204" cy="200" r="4.5" fill="#F49A63"/>
+    </svg>
+
+
+    <h1>Muffin Cake will you be my Galentine?</h1>
+
+    <section class="button-zone" id="zone">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </section>
+
+    <!-- HINT -->
+    <div class="hint" id="hint">If you click "No", you will get a v!rus</div>
+
+    <section class="result" id="result">
+      <h2>YEET! :D</h2>
+      <img
+        class="fireworks"
+        src="https://media1.tenor.com/m/qa6k1_MMfh0AAAAd/han-jisung.gif"
+        alt="Fireworks"
+      />
+    </section>
+  </main>
 
   <script>
     const zone = document.getElementById("zone");
@@ -247,7 +343,3 @@
   </script>
 </body>
 </html>
-
-
-
-
