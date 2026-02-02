@@ -26,7 +26,7 @@
       place-items: center;
       background: radial-gradient(circle at top, var(--bg2), var(--bg1));
       font-family: system-ui, sans-serif;
-      overflow: hidden;
+      overflow: auto;
       padding: 16px;
     }
 
@@ -97,6 +97,8 @@
       left: 62%;
       background: #e5e7eb;
       color: #111827;
+      /* Remove 'transform' from the transition so it doesn't lag behind the mouse */
+      transition: left 0.1s ease-out, top 0.1s ease-out;
     }
 
     .hint {
@@ -136,20 +138,36 @@
     <!-- Heart and Skooz -->
     <svg class="art" viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="heart" x1="0" x2="1">
+        <linearGradient id="heart1" x1="0" x2="1">
           <stop offset="0" stop-color="#ff4d7d"/>
           <stop offset="1" stop-color="#ff1f68"/>
         </linearGradient>
+        <linearGradient id="heart2" x1="0" x2="1">
+          <stop offset="0" stop-color="#af71ff"/>
+          <stop offset="1" stop-color="#8a4fff"/>
+        </linearGradient>
       </defs>
 
-      <!-- HEART -->
-      <path
-        d="M160 36
-          C160 18 194 18 194 36
-          C194 64 160 82 160 102
-          C160 82 126 64 126 36
-          C126 18 160 18 160 36Z"
-        fill="url(#heart)"
+      <path d="M80 40 C80 30 100 30 100 40 C100 55 80 65 80 75 C80 65 60 55 60 40 C60 30 80 30 80 40Z" fill="url(#heart1)" />
+      
+      <path d="M240 50 C240 40 260 40 260 50 C260 65 240 75 240 85 C240 75 220 65 220 50 C220 40 240 40 240 50Z" fill="url(#heart2)" />
+      
+      <path 
+        d="M30 110 
+           C30 100 50 100 50 110 
+           C50 125 30 135 30 145 
+           C30 135 10 125 10 110 
+           C10 100 30 100 30 110Z" 
+        fill="url(#heart2)" 
+      />
+      
+      <path 
+        d="M285 125 
+           C285 115 305 115 305 125 
+           C305 140 285 150 285 160 
+           C285 150 265 140 265 125 
+           C265 115 285 115 285 125Z" 
+        fill="url(#heart1)" 
       />
 
       <!-- HEAD OUTLINE -->
@@ -174,9 +192,9 @@
 
       <!-- FOREHEAD CURL -->
       <path
-        d="M148 108
-          C136 96 150 80 164 90
-          C178 100 162 120 148 108Z"
+        d="M142 95 
+           C145 115, 158 115, 160 102 
+           C162 85, 175 88, 178 108"
         fill="none"
         stroke="#F49A63"
         stroke-width="6"
@@ -222,7 +240,7 @@
     </section>
 
     <!-- HINT -->
-    <div class="hint" id="hint">If you click "No", you will get a v!rus</div>
+    <div class="hint" id="hint"></div>
 
     <section class="result" id="result">
       <h2>YEET! :D</h2>
@@ -293,15 +311,19 @@
       yesBtn.style.transform = `translateY(-50%) scale(${yesScale})`;
     }
 
-    /* ---------- NO BUTTON RUNS AWAY ---------- */
+    /* ---------- HELPER FUNCTION ---------- */
     function clamp(n, min, max) {
       return Math.max(min, Math.min(max, n));
     }
+
+    /* ---------- NO BUTTON RUNS AWAY & SHRINKS ---------- */
+    let noScale = 1; // Start at full size
 
     function moveNo(px, py) {
       const z = zone.getBoundingClientRect();
       const b = noBtn.getBoundingClientRect();
 
+      // 1. Calculate the run-away movement
       let dx = (b.left + b.width / 2) - px;
       let dy = (b.top + b.height / 2) - py;
       let mag = Math.hypot(dx, dy) || 1;
@@ -314,11 +336,20 @@
       newLeft = clamp(newLeft, 0, z.width - b.width);
       newTop  = clamp(newTop, 0, z.height - b.height);
 
-      noBtn.style.left = newLeft + "px";
-      noBtn.style.top = newTop + "px";
-      noBtn.style.transform = "none";
+      // 2. Shrink the button
+      noScale -= 0.15; // Shrink by 15% each time
 
-      growYes();
+      if (noScale <= 0.1) {
+        noBtn.style.display = "none"; // Disappear when tiny
+        hint.textContent = "OI, OI, OI... the 'No' button has left the building.";
+      } else {
+        noBtn.style.left = newLeft + "px";
+        noBtn.style.top = newTop + "px";
+        // FIX: We must include translateY(-50%) so it stays centered while shrinking!
+        noBtn.style.transform = `translateY(-50%) scale(${noScale})`;
+      }
+
+      growYes(); // Yes button grows lol
     }
 
     zone.addEventListener("pointermove", e => {
@@ -335,7 +366,7 @@
     /* ---------- YES CLICK ---------- */
     yesBtn.addEventListener("click", () => {
       zone.style.display = "none";
-      hint.style.display = "none";     // HIDE THE HINT
+      hint.style.display = "none";
       result.style.display = "block";
       resizeConfettiCanvas();
       fullScreenConfetti();
